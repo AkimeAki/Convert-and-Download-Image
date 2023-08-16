@@ -1,10 +1,10 @@
 {
 	"manifest_version": 3,
-	"name": "Transform Image Format",
+	"name": "Convert and Download Image",
 	"version": "1.0.0",
-	"description": "Google Chatのキー設定を変更できます。",
+	"description": "画像の拡張子を変換した上で保存することができます。",
 	"action": {
-		"default_title": "Transform Image Format",
+		"default_title": "Convert and Download Image",
 		"default_popup": "./popup/popup.html"
 	},
 	"icons": {
