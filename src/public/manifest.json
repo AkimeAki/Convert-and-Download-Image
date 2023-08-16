@@ -1,0 +1,27 @@
+{
+	"manifest_version": 3,
+	"name": "Transform Image Format",
+	"version": "1.0.0",
+	"description": "Google Chatのキー設定を変更できます。",
+	"action": {
+		"default_title": "Transform Image Format",
+		"default_popup": "./popup/popup.html"
+	},
+	"icons": {
+		"16": "./icons/icon16.png",
+		"48": "./icons/icon48.png",
+		"128": "./icons/icon128.png"
+	},
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"js": ["./content.js"],
+			"all_frames": false
+		}
+	],
+	"background": {
+		"service_worker": "./background.js",
+		"type": "module"
+	},
+	"permissions": ["tabs", "background", "contextMenus"]
+}
