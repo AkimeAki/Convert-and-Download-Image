@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { formatList } from "../lib";
+import { formatList, convertAndDownloadImage, getCurrentTab } from "../lib";
 
 function App() {
 	return (
@@ -19,8 +19,17 @@ function App() {
 				{formatList.map((item) => (
 					<Button
 						variant="contained"
-						onClick={() => {
-							chrome.runtime.sendMessage(item, () => {});
+						onClick={async () => {
+							const currentTab = await getCurrentTab();
+							if (currentTab.id === undefined) {
+								return;
+							}
+
+							chrome.scripting.executeScript({
+								target: { tabId: currentTab.id },
+								func: convertAndDownloadImage,
+								args: [item.type, item.ext]
+							});
 						}}
 						sx={{ textTransform: "none" }}
 					>

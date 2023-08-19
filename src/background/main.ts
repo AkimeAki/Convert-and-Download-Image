@@ -1,25 +1,4 @@
-import { formatList } from "../lib";
-import type { Format, ImageUrl } from "../lib";
-
-async function getCurrentTab() {
-	const queryOptions = { active: true, currentWindow: true };
-	const [tab] = await chrome.tabs.query(queryOptions);
-	return tab;
-}
-
-chrome.runtime.onMessage.addListener((request: Format) => {
-	getCurrentTab().then((currentTab) => {
-		const currentTabId = currentTab.id;
-		if (currentTabId === undefined) {
-			return;
-		}
-
-		const imageData: Format & ImageUrl = { url: undefined, ...request };
-		chrome.tabs.sendMessage(currentTabId, imageData).catch(() => {});
-	});
-
-	return true;
-});
+import { formatList, convertAndDownloadImage, getCurrentTab } from "../lib";
 
 chrome.runtime.onInstalled.addListener(() => {
 	chrome.contextMenus.create({
@@ -41,16 +20,18 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.contextMenus.onClicked.addListener(async (info) => {
 	const currentTab = await getCurrentTab();
-	const currentTabId = currentTab.id;
-	if (currentTabId === undefined) {
-		return;
-	}
 
 	formatList.forEach((item) => {
-		const imageData: Format & ImageUrl = { url: info.srcUrl, ...item };
+		if (currentTab.id === undefined) {
+			return;
+		}
 
 		if (info.menuItemId === `download-${item.id}`) {
-			chrome.tabs.sendMessage(currentTabId, imageData).catch(() => {});
+			chrome.scripting.executeScript({
+				target: { tabId: currentTab.id },
+				func: convertAndDownloadImage,
+				args: [item.type, item.ext, info.srcUrl]
+			});
 		}
 	});
 });

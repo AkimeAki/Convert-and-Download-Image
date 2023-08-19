@@ -19,7 +19,6 @@ export default defineConfig({
 			},
 			input: {
 				popup: "./src/popup/popup.html",
-				content: "./src/content/main.ts",
 				background: "./src/background/main.ts"
 			}
 		}
