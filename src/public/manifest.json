@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "Convert and Download Image",
-	"version": "2.0.0",
+	"version": "2.1.0",
 	"description": "画像の拡張子を変換した上で保存することができます。",
 	"action": {
 		"default_title": "Convert and Download Image",
@@ -15,5 +15,5 @@
 		"type": "module"
 	},
 	"permissions": ["activeTab", "scripting", "contextMenus"],
-	"host_permissions": ["http://*/*", "https://*/*"]
+	"host_permissions": ["*://*/*"]
 }

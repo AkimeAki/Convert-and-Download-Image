@@ -37,7 +37,27 @@ export const convertAndDownloadImage = async (type: string, ext: string, url?: s
 			mode: "cors"
 		});
 
-		const blob = await res.blob();
+		const blob = await res.clone().blob();
+		const byteArray = new Uint8Array(await res.clone().arrayBuffer());
+
+		let currentImageType = "unknown";
+		if (byteArray[0] === 255 && byteArray[1] === 216) {
+			currentImageType = "image/jpeg";
+		} else if (byteArray[0] === 137 && byteArray[1] === 80 && byteArray[2] === 78 && byteArray[3] === 71) {
+			currentImageType = "image/png";
+		} else if (byteArray[0] === 82 && byteArray[1] === 73 && byteArray[2] === 70 && byteArray[3] === 70) {
+			currentImageType = "image/webp";
+		}
+
+		if (currentImageType === type) {
+			const link = document.createElement("a");
+			link.href = URL.createObjectURL(blob);
+			link.download = `image.${ext}`;
+			link.click();
+
+			return;
+		}
+
 		const img = new Image();
 		img.src = URL.createObjectURL(blob);
 		img.onload = async () => {
