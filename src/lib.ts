@@ -31,7 +31,7 @@ export const getCurrentTab = async () => {
 	return tab;
 };
 
-export const convertAndDownloadImage = async (type: string, ext: string, url?: string) => {
+export const convertAndDownloadImage = async (type: string, ext: string, saveas: boolean, url?: string) => {
 	try {
 		const res = await fetch(url !== undefined ? url : location.href, {
 			mode: "cors"
@@ -60,9 +60,21 @@ export const convertAndDownloadImage = async (type: string, ext: string, url?: s
 
 		if (currentImageType === type) {
 			const link = document.createElement("a");
-			link.href = URL.createObjectURL(blob);
-			link.download = `image.${ext}`;
-			link.click();
+			const blobUrl = URL.createObjectURL(blob);
+			if (saveas) {
+				const opts = {
+					suggestedName: `image.${ext}`
+				};
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				const handle = await (window as any).showSaveFilePicker(opts);
+				const writable = await handle.createWritable();
+				await writable.write(blob);
+				await writable.close();
+			} else {
+				link.href = blobUrl;
+				link.download = `image.${ext}`;
+				link.click();
+			}
 
 			return;
 		}
@@ -82,23 +94,39 @@ export const convertAndDownloadImage = async (type: string, ext: string, url?: s
 				const dataURL = canvas.toDataURL(type);
 				const blob = await (await fetch(dataURL)).blob();
 				const link = document.createElement("a");
-				link.href = URL.createObjectURL(blob);
-				link.download = `image.${ext}`;
-				link.click();
+				const blobUrl = URL.createObjectURL(blob);
+				if (saveas) {
+					const opts = {
+						suggestedName: `image.${ext}`
+					};
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					const handle = await (window as any).showSaveFilePicker(opts);
+					const writable = await handle.createWritable();
+					await writable.write(blob);
+					await writable.close();
+				} else {
+					link.href = blobUrl;
+					link.download = `image.${ext}`;
+					link.click();
+				}
 			} catch (e) {
-				alert("対応していない形式か、または別の理由により処理できませんでした。");
+				if (!saveas) {
+					alert("対応していない形式か、または別の理由により処理できませんでした。");
+				}
 			}
 		};
 	} catch (e) {
 		if (url === undefined || url === location.href) {
 			alert("画像にアクセスできませんでした。");
 		} else {
-			const openNewTab = confirm(
-				"画像にアクセスできませんでした。\n新しいタブで画像を開き、右上のアクションボタンからダウンロードしてください。\n新しいタブで開きますか？"
-			);
+			if (!saveas) {
+				const openNewTab = confirm(
+					"画像にアクセスできませんでした。\n新しいタブで画像を開き、右上のアクションボタンからダウンロードしてください。\n新しいタブで開きますか？"
+				);
 
-			if (openNewTab) {
-				window.open(url, "_blank");
+				if (openNewTab) {
+					window.open(url, "_blank");
+				}
 			}
 		}
 	}

@@ -3,17 +3,14 @@ ps:
 	docker compose ps -a
 
 .PHONY: コンテナ起動
-up:
+init:
+	@make delete
 	docker compose build --no-cache
 	docker compose up -d
 
-.PHONY: コンテナ停止
-down:
+.PHONY: コンテナ削除
+delete:
 	docker compose down --rmi all --volumes --remove-orphans
-
-.PHONY: パッケージインストール
-package-install:
-	docker compose exec -it extension npm ci
 
 .PHONY: コンテナにアタッチ
 attach:

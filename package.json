@@ -1,6 +1,6 @@
 {
 	"name": "convert-and-download-image",
-	"version": "2.1.1",
+	"version": "2.2.0",
 	"private": true,
 	"scripts": {
 		"build": "vite build",
@@ -12,7 +12,6 @@
 		"@emotion/styled": "^11.11.0",
 		"@mui/icons-material": "^5.14.1",
 		"@mui/material": "^5.14.2",
-		"aki-modules": "github:AkimeAki/Modules#2.0.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0"
 	},

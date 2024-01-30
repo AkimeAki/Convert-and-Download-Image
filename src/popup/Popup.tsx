@@ -28,12 +28,34 @@ function App() {
 							chrome.scripting.executeScript({
 								target: { tabId: currentTab.id },
 								func: convertAndDownloadImage,
-								args: [item.type, item.ext]
+								args: [item.type, item.ext, false]
 							});
 						}}
 						sx={{ textTransform: "none" }}
+						key={item.id}
 					>
 						{item.name}
+					</Button>
+				))}
+				{formatList.map((item) => (
+					<Button
+						variant="contained"
+						onClick={async () => {
+							const currentTab = await getCurrentTab();
+							if (currentTab.id === undefined) {
+								return;
+							}
+
+							chrome.scripting.executeScript({
+								target: { tabId: currentTab.id },
+								func: convertAndDownloadImage,
+								args: [item.type, item.ext, true]
+							});
+						}}
+						sx={{ textTransform: "none" }}
+						key={item.id}
+					>
+						Save as {item.name}
 					</Button>
 				))}
 			</Box>

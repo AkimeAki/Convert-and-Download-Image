@@ -1,0 +1,32 @@
+@layer base {
+	* {
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0;
+		font-family: "游ゴシック体", YuGothic, "游ゴシック", "メイリオ", Meiryo, "Hiragino Kaku Gothic Pro",
+			"ヒラギノ角ゴ Pro W3", "ＭＳ Ｐゴシック", sans-serif;
+		font-size: 18px;
+		line-height: 1.6;
+	}
+	*:focus {
+		outline: none;
+	}
+	:root {
+		background-color: #fff;
+	}
+	html,
+	body {
+		width: 100%;
+	}
+	ul,
+	ol {
+		padding-block-start: 0;
+		padding-block-end: 0;
+		padding-inline-start: 40px;
+		margin-inline-start: 0;
+		margin-inline-end: 0;
+	}
+	a {
+		color: #1976d2;
+	}
+}
