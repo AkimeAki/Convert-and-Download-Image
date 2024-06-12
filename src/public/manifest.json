@@ -1,8 +1,8 @@
 {
 	"manifest_version": 3,
-	"name": "Convert and Download Image",
-	"version": "2.2.0",
-	"description": "画像の拡張子を変換した上で保存することができます。",
+	"name": "拡張子を変更して画像を保存",
+	"version": "2.2.1",
+	"description": "画像の拡張子（フォーマット）を変換した上で保存することができます。",
 	"action": {
 		"default_title": "Convert and Download Image",
 		"default_popup": "./popup/popup.html"
