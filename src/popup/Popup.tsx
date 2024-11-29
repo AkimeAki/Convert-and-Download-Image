@@ -16,7 +16,7 @@ function App() {
 				</Toolbar>
 			</AppBar>
 			<Typography component="div" sx={{ textAlign: "center", padding: "10px 0" }}>
-				保存したい画像をタブで開いてボタンを教えて下さい
+				保存したい画像をタブで開いてボタンを押してください
 			</Typography>
 			<Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "5px", padding: "5px" }}>
 				{formatList.map((item) => (
